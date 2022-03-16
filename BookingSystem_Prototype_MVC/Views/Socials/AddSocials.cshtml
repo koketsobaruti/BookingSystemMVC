@@ -1,0 +1,49 @@
+﻿@model BookingSystem_Prototype_MVC.Models.BusinessSocials
+@{
+    ViewData["Title"] = "AddSocials";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+<div class="container">
+    <h1 class="display-3">Business Registration</h1>
+    <h6 class="display-5">Fill in your social media and website links below.</h6>
+
+    <form method="post" asp-action="AddSocials">
+        <div style="padding-top:0.5em;">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="FacebookLink" class="form-label"></label>
+                    <input type="text" asp-for="FacebookLink" class="form-control">
+
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="InstagramLink" class="form-label"></label>
+                    <input type="text" asp-for="InstagramLink" class="form-control">
+                </div>
+
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="WebsiteLink" class="form-label"></label>
+                    <input type="text" asp-for="WebsiteLink" class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="WhatsappLink" class="form-label"></label>
+                    <input type="text" asp-for="WhatsappLink" class="form-control">
+                </div>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="container">
+            <button class="btn btn-success" type="submit">Finish Registration</button>
+        </div>
+
+    </form>
+
+
+</div>

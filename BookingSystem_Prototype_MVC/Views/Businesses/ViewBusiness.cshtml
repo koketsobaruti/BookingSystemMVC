@@ -1,0 +1,46 @@
+﻿@model BookingSystem_Prototype_MVC.Models.Business
+
+@{
+    ViewData["Title"] = "ViewBusiness";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+<head>
+    <style>
+        .bg-1 {
+            background-color: whitesmoke; /* Green */
+            color: black;
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+    </style>
+</head>
+<h1 class="display-3">Business Portal</h1>
+<div class="container">
+    <div class="container-fluid bg-1 text-center">
+        <p type="text" class="display-3">@Model.Name</p>
+        <img src="@("~/Images/" + Model.ImageName)" asp-append-version="true" class="img-circle" height="40" width="40"x-->
+    </div>
+</div>
+
+<div class="container">
+
+    <div style="padding-top:0.5em;">
+        <p class="lead">Basic Information</p>
+        <br />
+        
+        <div class="row g-3">
+            <div class="col-md-6">
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Email" class="form-label"></label>
+                <input type="text" asp-for="Email" class="form-control">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>

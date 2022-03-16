@@ -1,0 +1,240 @@
+﻿@model BookingSystem_Prototype_MVC.Models.Business
+
+@{
+    ViewData["Title"] = "AddBusiness";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+
+
+<div class="container">
+    <button class="btn btn-outline-secondary" type="button" asp-controller="Home" asp-action="Index">Return</button>
+    <div class="alert alert-success" role="alert" id="alertDiv" style="display:none">
+        You have succesfuly entered the information!
+    </div>
+    <h1 class="display-3">Business Registration</h1>
+    <h4 class="display-5">Step 1</h4>
+    <h6 class="display-5">Enter details about your business to register</h6>
+
+    <form method="post" asp-action="AddBusiness" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div id="firstForm">
+            @*BASIC DETAILS*@
+            <div style="padding-top:0.5em;">
+                <p class="lead">Basic Information</p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input type="text" asp-for="Name" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input type="text" asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input type="password" asp-for="Password" class="form-control">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <input type="password" asp-for="ConfirmPassword" class="form-control">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                </div>
+
+                @*LOCATION DETAILS*@
+                <div style="padding-top:0.5em;">
+                    <p class="lead">Location</p>
+                    <div class="row">
+
+                        <div class="col-sm">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input type="text" asp-for="Address" class="form-control" placeholder="1234 Main St"></Input>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-sm">
+                            <label asp-for="City" class="form-label"></label>
+                            <input type="text" asp-for="City" class="form-control">
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-sm">
+                            <label asp-for="Country" class="form-label"></label>
+                            <input type="text" asp-for="Country" class="form-control">
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                @*CONTACT INFORMATION*@
+                <div style="padding-top:0.5em;">
+                    <p class="lead">Business Contact Details</p>
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label"></label>
+                            <input asp-for="Phone" class="form-control" placeholder="70000001">
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Telephone" class="form-label"></label>
+                            <input asp-for="Telephone" class="form-control" placeholder="390000">
+                            <span asp-validation-for="Telephone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="ImageFile" class="control-label"></label>
+            <br />
+            <span class="badge badge-danger">Important!</span>
+            <p><strong>The filename should be the same as your business name. eg: beauty.png</strong></p>
+            <input asp-for="ImageFile" accept="image/*" />
+        </div>
+
+        <div class="mb-3">
+            <input name="chkBox" type="checkbox" onchange="showAddHide(this.checked)" class="btn btn-primary" />
+            <label for="checkInput" class="form-label">Confirm Details</label>
+            <div id="btnDiv" style="display:none;" class="container">
+                <button class="btn btn-primary" id="addBtn" type="button" onclick="showSocialDiv()">Next</button>
+            </div>
+        </div>
+
+        <hr />
+        <div id="socialquestionDiv" style="display:none;">
+            <h4 class="display-5">Step 2</h4>
+            <div class="mb-3">
+                <label class="form-label">Do you have any social media accounts?</label>
+                <br />
+                <div class="container">
+                    <input id="checkInput" type="checkbox" onclick="showSocials(this.checked)" class="btn btn-primary" />
+                    <label for="checkInput" class="form-label">Yes</label>
+                </div>
+                @*<br />
+        <button class="btn btn-primary" id="socialsButton" type="button"  asp-controller="Socials" asp-action="AddSocials" style="display:none;">Add Social Media Accounts/Website Link </button>*@
+            </div>
+        </div>
+
+        @*ADD SOCIAL MEDIA LINKS*@
+        <div id="secondForm" style="display:none;">
+            <div style="padding-top:0.5em;">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FacebookLink" class="form-label"></label>
+                        <input type="text" asp-for="FacebookLink" class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InstagramLink" class="form-label"></label>
+                        <input type="text" asp-for="InstagramLink" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="WebsiteLink" class="form-label"></label>
+                        <input type="text" asp-for="WebsiteLink" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="WhatsappLink" class="form-label"></label>
+                        <input type="text" asp-for="WhatsappLink" class="form-control">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <br />
+        <button type="submit" class="btn btn-success" style="display:none;" id="finishBtn">Finish Registration</button>
+    </form>
+
+
+
+
+
+    @*<form method="post" asp-action="AddSocials" id="secondForm" style="display:none;">
+            <div style="padding-top:0.5em;">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FacebookLink" class="form-label"></label>
+                        <input type="text" asp-for="FacebookLink" class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InstagramLink" class="form-label"></label>
+                        <input type="text" asp-for="InstagramLink" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="WebsiteLink" class="form-label"></label>
+                        <input type="text" asp-for="WebsiteLink" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="WhatsappLink" class="form-label"></label>
+                        <input type="text" asp-for="WhatsappLink" class="form-control">
+                    </div>
+                </div>
+
+            </div>
+        </form>*@
+
+</div>
+
+
+<script type="text/javascript">
+    function showAlert() {
+        $("#alertDiv").show();
+    }
+
+    function showSocialDiv() {
+        $("#firstForm").fadeOut();
+        $("#socialquestionDiv").fadeIn();
+        $("#finishBtn").fadeIn();
+    }
+
+    function showAddHide(checked) {
+        if (checked == true)
+            $("#btnDiv").fadeIn();
+        else $("#btnDiv").fadeOut();
+    }
+
+    function showSocials(checked) {
+        if (checked == true)
+            $("#secondForm").fadeIn();
+        else $("#secondForm").fadeOut();
+    }
+
+
+</script>
+
+
+
+@section Scripts{
+
+    @{
+        <partial name="_ValidationScriptsPartial" />}
+
+}
+
+
