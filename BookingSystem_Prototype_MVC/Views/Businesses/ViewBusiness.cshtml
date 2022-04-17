@@ -1,4 +1,4 @@
-﻿@model BookingSystem_Prototype_MVC.Models.Business
+﻿@model BookingSystem_Prototype_MVC.Models.BusinessModels.Business
 
 @{
     ViewData["Title"] = "ViewBusiness";
@@ -16,31 +16,66 @@
             padding-top: 70px;
             padding-bottom: 70px;
         }
+        .btnDiv{
+            margin-left:auto;
+            margin-right:auto;
+            width:50%;
+        }
+
     </style>
 </head>
-<h1 class="display-3">Business Portal</h1>
-<div class="container">
-    <div class="container-fluid bg-1 text-center">
-        <p type="text" class="display-3">@Model.Name</p>
-        <img src="@("~/Images/" + Model.ImageName)" asp-append-version="true" class="img-circle" height="40" width="40"x-->
+
+<div class="container-fluid bg-1 text-center">
+    <img src="@("~/Images/" + Model.ImageName)" asp-append-version="true" class="rounded-circle" width="150" height="150" />
+    <p class="display-3" >@Model.Name</p>
+    <div class="btnDiv">
+        <a type="button" class="btn btn-success btn-block">View Gallery</a>
+        <br/>
+        <a type="button" class="btn btn-primary btn-block" asp-route-Id="@Model.ID" asp-controller="Businesses" asp-action="ViewServices">View Services</a>
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="margin:1em;">
 
-    <div style="padding-top:0.5em;">
-        <p class="lead">Basic Information</p>
-        <br />
-        
-        <div class="row g-3">
-            <div class="col-md-6">
-            </div>
+    <p class="lead">About Us:</p>
+    <dl>
+        <dt class="col-md-3 form-label">Description</dt>
+        <dd class="col">@Model.Description</dd>
 
-            <div class="col-md-6">
-                <label asp-for="Email" class="form-label"></label>
-                <input type="text" asp-for="Email" class="form-control">
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+        <dt class="col-md-3 form-label">Location</dt>
+        <dd class="col">@Model.Address, @Model.City, @Model.Country</dd>
+    </dl>
+
+    <p class="lead">Contact Us:</p>
+    <dl class="row container">
+        <div class="col-md">
+            <dt class="form-label">Phone</dt>
+            <dd>@Model.Phone</dd>
+         </div>
+        <div class="col-md">
+            <dt class="form-label">Telephone</dt>
+            <dd>@Model.Telephone</dd>
         </div>
-    </div>
+    </dl>
+
+    <p class="lead">You can find us on following social media platforms: </p>
+    <dl class="row container">
+        <div class="col-md">
+            <dt class="form-label">Facebook</dt>
+            <dd>@Model.FacebookLink</dd>
+        </div>
+        <div class="col-md">
+            <dt class="form-label">Instagram</dt>
+            <dd>@Model.InstagramLink</dd>
+        </div>
+        <div class="col-md">
+            <dt class="form-label">Website</dt>
+            <dd>@Model.WebsiteLink</dd>
+        </div>
+        <div class="col-md">
+            <dt class="form-label">Whatsapp</dt>
+            <dd>@Model.WhatsappLink</dd>
+        </div>
+    </dl>
+
 </div>

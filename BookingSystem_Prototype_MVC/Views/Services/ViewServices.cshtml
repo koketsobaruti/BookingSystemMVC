@@ -1,0 +1,17 @@
+﻿@model IEnumerable<BookingSystem_Prototype_MVC.Models.ServiceModels.BusinessServices>
+
+@{
+    ViewData["Title"] = "ViewServices";
+    Layout = "~/Views/Shared/_ViewLayout.cshtml";
+}
+
+<h1>ViewServices</h1>
+
+<div class="container">
+    <h1 class="display-3">Services</h1>
+    <h6 class="display-5">Below is a list of the services you are offering</h6>
+@foreach (var obj in Model)
+        {
+            <partial name="_ServicesPartialView" model="obj" />
+        }
+</div>

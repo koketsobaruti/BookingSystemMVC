@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookingSystem_Prototype_MVC.Models
+namespace BookingSystem_Prototype_MVC.Models.BusinessModels
 {
     public class Business
     {
@@ -19,7 +19,6 @@ namespace BookingSystem_Prototype_MVC.Models
         [DisplayName("Business Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Required")]
         [DataType(DataType.PhoneNumber, ErrorMessage = "You must enter valid characters.")]
         //The Regular expression will allow only Numbers (Digits)
         //and the length will be exact 8 digits
@@ -70,7 +69,7 @@ namespace BookingSystem_Prototype_MVC.Models
         [DisplayName("Upload a profile picture for your business (optional).")]
         public IFormFile ImageFile { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Required")]
         /// <summary>
         /// At least one lower case letter,
         ///At least one upper case letter,
@@ -86,5 +85,9 @@ namespace BookingSystem_Prototype_MVC.Models
         [Compare("Password", ErrorMessage = "Passwords must match.")]
         [RegularExpression(@"^(?=.*[!@#$%^()_-]{1})[a-zA-Z!@#$%^()_-]{8,12}$", ErrorMessage = "Password must contain: Minimum 4 to 8 characters and at least 1 Special Character")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Required")]
+        [Column(TypeName = "BLOB")]
+        public string Description { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingSystem_Prototype_MVC.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20220315220248_addBusinessToDatabase")]
+    [Migration("20220317194442_addBusinessToDatabase")]
     partial class addBusinessToDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,10 @@ namespace BookingSystem_Prototype_MVC.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Email")
                         .IsRequired()

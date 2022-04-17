@@ -1,4 +1,4 @@
-﻿@model BookingSystem_Prototype_MVC.Models.Business
+﻿@model BookingSystem_Prototype_MVC.Models.BusinessModels.Business
 
 @{
     ViewData["Title"] = "AddBusiness";
@@ -30,45 +30,57 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input type="text" asp-for="Email" class="form-control">
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input type="password" asp-for="Password" class="form-control">
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea type="text" asp-for="Description" class="form-control" placeholder="Provide a brief description of what products or services your business has to offer to customers."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
-                    <div class="col-md-6">
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
-                        <input type="password" asp-for="ConfirmPassword" class="form-control">
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                @*LOGIN DETAILS*@
+                <div style="padding-top:0.5em;">
+                    <p class="lead">Create Account</p>
+                    <div class="row">
+                        <div class="col-md">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input type="text" asp-for="Email" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input type="password" asp-for="Password" class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md">
+                            <label asp-for="ConfirmPassword" class="form-label"></label>
+                            <input type="password" asp-for="ConfirmPassword" class="form-control">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                </div>
+            </div>
+                    
 
                 @*LOCATION DETAILS*@
                 <div style="padding-top:0.5em;">
                     <p class="lead">Location</p>
                     <div class="row">
 
-                        <div class="col-sm">
+                        <div class="col-md">
                             <label asp-for="Address" class="form-label"></label>
-                            <input type="text" asp-for="Address" class="form-control" placeholder="1234 Main St"></Input>
+                            <input type="text" asp-for="Address" class="form-control" placeholder="1234 Main St">
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
 
-                        <div class="col-sm">
+                        <div class="col-md">
                             <label asp-for="City" class="form-label"></label>
                             <input type="text" asp-for="City" class="form-control">
                             <span asp-validation-for="City" class="text-danger"></span>
                         </div>
 
-                        <div class="col-sm">
+                        <div class="col-md">
                             <label asp-for="Country" class="form-label"></label>
                             <input type="text" asp-for="Country" class="form-control">
                             <span asp-validation-for="Country" class="text-danger"></span>

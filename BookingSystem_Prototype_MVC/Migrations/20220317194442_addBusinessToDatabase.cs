@@ -23,7 +23,8 @@ namespace BookingSystem_Prototype_MVC.Migrations
                     InstagramLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WhatsappLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,8 +1,11 @@
 ﻿using BookingSystem_Prototype_MVC.Data;
-using BookingSystem_Prototype_MVC.Models;
-using BookingSystem_Prototype_MVC.Models.Logic;
+using BookingSystem_Prototype_MVC.Models.BusinessModels;
+using BookingSystem_Prototype_MVC.Models.BusinessModels.Logic;
+using BookingSystem_Prototype_MVC.Models.ServiceModels;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RandomClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +21,9 @@ namespace BookingSystem_Prototype_MVC.Controllers
 
         //model definition
         Business business;
+        BusinessServices businessServices;
         BusinessLogic businessLogic = new BusinessLogic();
+        IdentityGenerator identityGenerator = new IdentityGenerator();
 
 
         //create an instance of db context for dependency injection
@@ -40,8 +45,8 @@ namespace BookingSystem_Prototype_MVC.Controllers
             try
             {
                 //fetch the value passed from other action
-                var ID = "ca99791";
-                    //TempData["busId"].ToString();
+                //var ID = TempData["busId"].ToString();
+                var ID = "un33810";
                 //System.Diagnostics.Debug.WriteLine("BUSINESS ID ADDSOCIALS CONTROLLER:" + ID);
 
                 if (ID is null)
@@ -57,7 +62,7 @@ namespace BookingSystem_Prototype_MVC.Controllers
             }
             catch(Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("ADDSOCIALS CONTROLLER, ViewBusiness():" + ex.Message);
+                System.Diagnostics.Debug.WriteLine("BUSINESS CONTROLLER, ViewBusiness():" + ex.Message);
             }
                 
             //get the list of businesses registered
@@ -67,9 +72,26 @@ namespace BookingSystem_Prototype_MVC.Controllers
             return View(obj);
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        
+        
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+        /*public IActionResult AddServices(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            //LINQ to return a list of businessService objecjects that have the same businessId
+            IEnumerable<BusinessServices> objList = _db.BusinessServices.Where(service => service.Equals(id));
+            ////IEnumerable<BusinessServices> objList2 = _db.BusinessServices; 
+            ////businessServices = new BusinessServices();
 
-        public IActionResult AddBusiness()
+            return View(objList);
+        }*/
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+        public IActionResult AddBusiness() 
         {
             return View();
         }
@@ -88,56 +110,44 @@ namespace BookingSystem_Prototype_MVC.Controllers
         //recieve the object to add to the database
         public async Task<IActionResult> AddBusiness(Business obj)
         {
-            var busID = "";
+            //var busID = "";
             //check whether there is input. Return N/A if there is none
-            var whatsappInput = CheckInput(obj.WhatsappLink);
-            var facebookInput = CheckInput(obj.FacebookLink);
-            var instagramInput = CheckInput(obj.InstagramLink);
-            var websiteInput = CheckInput(obj.WebsiteLink);
+            obj.WhatsappLink = CheckInput(obj.WhatsappLink);
+            obj.FacebookLink = CheckInput(obj.FacebookLink);
+            obj.InstagramLink = CheckInput(obj.InstagramLink);
+            obj.WebsiteLink = CheckInput(obj.WebsiteLink);
              
             //check if all the validations applied are successful
             if (ModelState.IsValid)
             {
                 //Save image to wwwroot/image
                 string wwwRootPath = _hostEnvironment.WebRootPath;
+                var location = "Images";
 
-                //get the name of the file without the extention(png,pdf)
-                string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
+                //generate a filename
+                obj.ImageName = GenerateFileName(obj.ImageFile.FileName);
 
-                //get the extention of the image uploaded
-                string extension = Path.GetExtension(obj.ImageFile.FileName);
-
-                //generate a unique image name using the name of the file+year-month.seconds-milliseconds + extention of
-                //the file
-                //assign the new unique name to the filename object
-                obj.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-
-                //generate a path using the path of the wwwRootPath folder, the directory of the file named image
-                //and the name of the file being uploaded
-                string path = Path.Combine(wwwRootPath + "/Images/", fileName);
-
+                string path = ReturnImagePath(wwwRootPath, location, obj.ImageName);
 
                 //generate a random business ID using the businesslogic class
-                busID = businessLogic.GenerateID(obj.Name);
-                System.Diagnostics.Debug.WriteLine("BUSINESS ID BUSINESS CONTROLLER:" + busID);
-                //create a new Business object containing the ID generated
-                business = new Business()
-                {
-                    ID = busID,
-                    Name = obj.Name,
-                    Email = obj.Email,
-                    Address = obj.Address,
-                    City = obj.City,
-                    Country = obj.Country,
-                    Phone = obj.Phone,
-                    Telephone = obj.Telephone,
-                    WebsiteLink = websiteInput,
-                    InstagramLink = instagramInput,
-                    WhatsappLink = whatsappInput,
-                    FacebookLink = facebookInput,
-                    ImageName = obj.ImageName,
-                    Password = obj.Password
-                };
+                obj.ID = identityGenerator.GenerateID(obj.Name, 10000, 99999, 0, 2);
+                //busID = businessLogic.GenerateBusinessID(obj.Name);
+
+                //create a hashed password
+                obj.Password = businessLogic.GenerateHash(obj.Password);
+
+                /*get the name of the file without the extention(png,pdf)
+                ///string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
+
+                //get the extention of the image uploaded
+                ///string extension = Path.GetExtension(obj.ImageFile.FileName);*/
+
+                //generate a unique image name using the name of the file+year-month.seconds-milliseconds + extention of the file assign the new unique name to the filename object
+                ///obj.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+
+                //generate a path using the path of the wwwRootPath folder, the directory of the file named image and the name of the file being uploaded
+                ///string path = Path.Combine(wwwRootPath + "/Images/", obj.ImageName);
+
 
                 //copy the uploaded file into the root path
                 using (var fileStream = new FileStream(path, FileMode.Create))
@@ -146,20 +156,24 @@ namespace BookingSystem_Prototype_MVC.Controllers
                 }
 
                 //pass the object 
-                _db.Business.Add(business);
+                _db.Business.Add(obj);
+
                 //add the object to the database
                 _db.SaveChanges();
                 //return RedirectToAction("Socials", "AddSocials");
             }
 
             //pass businessID as the parameter to the socials controller
-            TempData["busId"] = busID;
+            TempData["busId"] = obj.ID;
+
+            //return RedirectToAction("ViewBusiness");
+            return RedirectToAction("AddService");
+
             //ViewBag.ID = busID;
             //ViewBag.BusID = busID;
 
             //this redirects to the specified controller and view
             //return RedirectToAction("ViewBusiness", business);
-            return RedirectToAction("ViewBusiness");
             //return View();
         }
 
@@ -180,7 +194,36 @@ namespace BookingSystem_Prototype_MVC.Controllers
 
             return returnVal;
         }
-    /*--------------------------------------------------------------------------------------00oo END OF FILE oo00-------------------------------------------------------------------------------------------------*/
-   
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+        public string GenerateFileName(string objfileName) {
+
+            //get the name of the file without the extention(png,pdf)
+            string fileName = Path.GetFileNameWithoutExtension(objfileName);
+
+            //get the extention of the image uploaded
+            string extension = Path.GetExtension(objfileName);
+
+            //generate a unique image name using the name of the file + year - month.seconds - milliseconds + extention of
+            //the file
+            fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+
+            return fileName;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+        
+        public string ReturnImagePath(string wwwRootPath,string location, string fileName)
+        {
+            //generate a path using the path of the wwwRootPath folder, the directory of the file named image
+            //and the name of the file being uploaded
+            string path = Path.Combine(wwwRootPath + "/" + location + "/" + fileName);
+
+            return path;
+        }
+
+        /*--------------------------------------------------------------------------------------00oo END OF FILE oo00-------------------------------------------------------------------------------------------------*/
+
     }
 }

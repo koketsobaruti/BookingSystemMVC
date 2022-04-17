@@ -1,0 +1,47 @@
+﻿@model BookingSystem_Prototype_MVC.Models.ServiceModels.BusinessServices
+<head>
+    <style>
+        .bg-1 {
+            background-color: whitesmoke; /* Green */
+            color: black;
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .btnDiv {
+        }
+    </style>
+</head>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.ServiceName</h5>
+        <label asp-for="@Model.ServiceDescription" class="form-label"></label>
+        <p class="card-text">@Model.ServiceDescription</p>
+
+        <p class="lead"><strong>P @Model.Price</strong></p>
+        <div class="card-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-block">View Ratings</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-success btn-block">Book</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary btn-block">Update</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger btn-block">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
