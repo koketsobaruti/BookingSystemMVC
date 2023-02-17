@@ -30,6 +30,11 @@ namespace BookingSystem_Prototype_MVC
                 Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllersWithViews();
+            
+            //add session
+            //services.AddDistributedMemoryCache();
+            //services.AddSession();
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,8 +61,12 @@ namespace BookingSystem_Prototype_MVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
+                    //pattern: "{controller=Business}/{action=ViewBusiness}/{id?}");
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //add session
+            //app.UseSession();
         }
     }
 }

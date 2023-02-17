@@ -29,7 +29,7 @@
     <img src="@("~/Images/" + Model.ImageName)" asp-append-version="true" class="rounded-circle" width="150" height="150" />
     <p class="display-3" >@Model.Name</p>
     <div class="btnDiv">
-        <a type="button" class="btn btn-success btn-block">View Gallery</a>
+        <button class="btn btn-success btn-block">View Gallery</button>
         <br/>
         <a type="button" class="btn btn-primary btn-block" asp-route-Id="@Model.ID" asp-controller="Businesses" asp-action="ViewServices">View Services</a>
     </div>

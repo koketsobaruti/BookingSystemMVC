@@ -16,6 +16,7 @@ namespace BookingSystem_Prototype_MVC.Controllers
 {
     public class BusinessesController : Controller
     {
+        const string SessionName = "_Name";
         private readonly ApplicationDBContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
 
@@ -41,12 +42,17 @@ namespace BookingSystem_Prototype_MVC.Controllers
         /// <returns></returns>
         public IActionResult ViewBusiness()
         {
-            Business obj = new Business();
+            Business obj = TempData["userData"] as Business;
+            
             try
             {
+                String ID = obj.ID;
                 //fetch the value passed from other action
-                //var ID = TempData["busId"].ToString();
-                var ID = "un33810";
+                //var ID = TempData["busId"].ToString();ViewBag.sessionv = 
+                //HttpContext.Session.GetString(SessionName);
+               // ViewBag.Msg = ViewBag.Message;
+                //System.Diagnostics.Debug.WriteLine("BUSINESS ID ADDSOCIALS CONTROLLER:" + ViewBag.Msg);
+                //var ID = "te71324";
                 //System.Diagnostics.Debug.WriteLine("BUSINESS ID ADDSOCIALS CONTROLLER:" + ID);
 
                 if (ID is null)
@@ -73,9 +79,6 @@ namespace BookingSystem_Prototype_MVC.Controllers
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
         
-        
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-
         /*public IActionResult AddServices(string id)
         {
             if (id == null)
@@ -125,7 +128,7 @@ namespace BookingSystem_Prototype_MVC.Controllers
                 var location = "Images";
 
                 //generate a filename
-                obj.ImageName = GenerateFileName(obj.ImageFile.FileName);
+                 obj.ImageName = GenerateFileName(obj.ImageFile.FileName);
 
                 string path = ReturnImagePath(wwwRootPath, location, obj.ImageName);
 
@@ -163,11 +166,17 @@ namespace BookingSystem_Prototype_MVC.Controllers
                 //return RedirectToAction("Socials", "AddSocials");
             }
 
-            //pass businessID as the parameter to the socials controller
-            TempData["busId"] = obj.ID;
+            //HttpContext.Session.SetString(SessionName, obj.ID);
 
-            //return RedirectToAction("ViewBusiness");
-            return RedirectToAction("AddService");
+
+            //pass businessID as the parameter to the socials controller
+            //TempData["busId"] = obj.ID;
+            //ISession["busId"] = obj.ID;
+            //ViewBag.Message = obj.ID;
+            TempData["userData"] = obj;
+            return RedirectToAction("ViewBusiness");
+            //return RedirectToAction("ViewBusiness", "Businesses", ID);
+            //return RedirectToAction("AddService");
 
             //ViewBag.ID = busID;
             //ViewBag.BusID = busID;
