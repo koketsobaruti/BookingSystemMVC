@@ -1,0 +1,76 @@
+﻿@model BookingSystem_Prototype_MVC.Models.ServiceModels.BusinessServices
+
+<div class="modal fade" id="EditService-@Model.ServiceID" aria-labelledby="EditServiceLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="ServiceID" />
+                        <input type="hidden" asp-for="ID" />
+                        <label asp-for="ServiceName" class="form-label"></label>
+                        <input type="text" asp-for="ServiceName" class="form-control" placeholder="Enter the name used to describe your service.">
+                        <span asp-validation-for="ServiceName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ServiceDescription" class="form-label"></label>
+                        <textarea type="text" asp-for="ServiceDescription" class="form-control" placeholder="Provide a brief description of what the service is about."></textarea>
+                        <span asp-validation-for="ServiceDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="row g-3 align-items-lg-end">
+                        <div class="col-auto">
+                            <label asp-for="Price" class="form-label"></label>
+                        </div>
+                        <div class="col-auto">
+                            <label><strong>P</strong></label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" asp-for="Price" class="form-control" placeholder="0.00" />
+                        </div>
+                        <div class="col-auto">
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @*<div class="mb-3">
+            <input name="chkBox" type="checkbox" onchange="showAddHide(this.checked)" class="btn btn-primary" />
+            <label for="checkInput" class="form-label">Confirm</label>
+            <div id="btnDiv" style="display:none;" class="container">
+                <button class="btn btn-primary" id="addBtn" type="submit">Save</button>
+            </div>
+        </div>*@
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    
+    
+
+</div>
+
+
+<script type="text/javascript">
+    function showAddHide(checked) {
+        if (checked == true)
+            $("#btnDiv").fadeIn();
+        else $("#btnDiv").fadeOut();
+    }
+</script>

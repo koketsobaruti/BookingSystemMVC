@@ -27,10 +27,10 @@ namespace BookingSystem_Prototype_MVC.Controllers
             _db = db;
             this._hostEnvironment = hostEnvironment;
         }
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         public IActionResult Index()
         {
@@ -45,11 +45,20 @@ namespace BookingSystem_Prototype_MVC.Controllers
         public IActionResult Index(Business business)
         {
             //check if all the validations applied are successful
-            if (ModelState.IsValid)
-            {
+            
+                Business obj = new Business();
                 string pass = business.Password;
                 string userEmail = business.Email;
-                Business obj = _db.Business.Find(userEmail);
+            //obj = _db.Business.Find("hairshop@gmail.com");
+            try
+            {
+                obj = _db.Business.Single(a => a.Email.Equals(userEmail));
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("HOMECONTROLLER:LOGIN ERROR MESSAGE" + ex.ToString());
+            }
+                
                 if (obj is null)
                 {
                     return NotFound();
@@ -57,13 +66,22 @@ namespace BookingSystem_Prototype_MVC.Controllers
                 else
                 {
                     string hashPass = businessLogic.GenerateHash(pass);
+                
                     if (obj.Password.Equals(hashPass))
                     {
-                        return RedirectToAction("ViewBusiness");
+                        System.Diagnostics.Debug.WriteLine("HOMECONTROLLER: USER VALID" );
+                        //get the user ID and send it to the next page
+                        string userId = obj.ID;
+                        TempData["userId"] = userId;
+                        return RedirectToAction("ViewBusiness", "Businesses");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("HOMECONTROLLER: USER NOT VALID");
+                        return NotFound();
                     }
                 }
-            }
-             return View();
+            //return View();
         }
 
         public IActionResult Privacy()

@@ -11,37 +11,43 @@
             padding-bottom: 70px;
         }
 
-        .btnDiv {
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .spacing{
+            margin:5px;
         }
     </style>
 </head>
-<div class="card">
+<div class="card spacing" >
     <div class="card-body">
         <h5 class="card-title">@Model.ServiceName</h5>
-        <label asp-for="@Model.ServiceDescription" class="form-label"></label>
         <p class="card-text">@Model.ServiceDescription</p>
-
         <p class="lead"><strong>P @Model.Price</strong></p>
+    </div>
         <div class="card-footer">
             <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary btn-block">View Ratings</button>
+                @*<div class="row">
+                    <div class="col spacing">
+                        <button type="button" class="btn btn-primary btn-block">View Analytics</button>
                     </div>
-                    <div class="col">
+                    <div class="col spacing">
                         <button type="button" class="btn btn-success btn-block">Book</button>
                     </div>
-                </div>
+                </div>*@
 
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary btn-block">Update</button>
+                <div class="row center">
+                    <div class="col-md-4 spacing">
+                        <button type="button" data-toggle="modal" data-target="@("#EditService-" + @Model.ServiceID)" data-url="@Url.Action($"Edit/{@Model.ServiceID}")" class="btn btn-primary btn-block">Update</button>
+                        @await Html.PartialAsync("_EditServicePartialView" , @Model)
                     </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-danger btn-block">Delete</button>
+                    <div class="col-md-4 spacing">
+                        <button type="button" data-toggle="modal" data-target="@("#DeleteService-" + @Model.ServiceID)" data-url="@Url.Action($"Delete/{@Model.ServiceID}")" class="btn btn-danger btn-block">Delete</button>
+                        @await Html.PartialAsync("_DeleteServicePartialView", @Model)
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>

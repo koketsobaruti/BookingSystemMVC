@@ -1,11 +1,12 @@
 ﻿@model BookingSystem_Prototype_MVC.Models.ServiceModels.BusinessServices
 
 <div class="container">
+    <a class="btn btn-outline-secondary" type="button" asp-route-Id="@ViewBag.ID" asp-controller="Services" asp-action="ViewServices">Return</a>
     <h1 class="display-3">Services</h1>
     <h6 class="display-5">Enter details about what services your business is offering.</h6>
 
     <form method="post" asp-action="AddService" enctype="multipart/form-data">
-        
+
         <div class="col-md-5">
             <div class="form-group">
                 <label asp-for="ServiceName" class="form-label"></label>
@@ -39,7 +40,10 @@
             <input name="chkBox" type="checkbox" onchange="showAddHide(this.checked)" class="btn btn-primary" />
             <label for="checkInput" class="form-label">Confirm</label>
             <div id="btnDiv" style="display:none;" class="container">
-                <button class="btn btn-primary" id="addBtn" type="submit">Add</button>
+                <button class="btn btn-primary" onclick="showConfirmation(this.clicked)" id="addBtn" type="submit">Add</button>
+                <div id="alertMessage" class="alert alert-success" role="alert">
+                    Service Added!
+                </div>
             </div>
         </div>
     </form>
@@ -52,6 +56,12 @@
         if (checked == true)
             $("#btnDiv").fadeIn();
         else $("#btnDiv").fadeOut();
+    }
+
+    function showConfirmation(clicked) {
+        if (clicked == true)
+            $("alertMessage").show();
+        else $("alertMessage").hide();
     }
 </script>
 

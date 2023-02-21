@@ -4,14 +4,26 @@
     ViewData["Title"] = "ViewServices";
     Layout = "~/Views/Shared/_ViewLayout.cshtml";
 }
-
-<h1>ViewServices</h1>
+<style>
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 
 <div class="container">
-    <h1 class="display-3">Services</h1>
-    <h6 class="display-5">Below is a list of the services you are offering</h6>
-@foreach (var obj in Model)
-        {
-            <partial name="_ServicesPartialView" model="obj" />
-        }
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-3">My Services</h1>
+            <h6 class="display-5">Below is a list of the services you are offering</h6>
+        </div>
+        <div class="col-md-4 center">
+            <a type="button" class="btn btn-primary" asp-route-Id="@ViewBag.ID" asp-controller="Services" asp-action="AddService">Add a new Service</a>
+        </div>
+    </div>
+    @foreach (var obj in Model)
+    {
+        <partial name="_ServicesPartialView" model="obj" />
+    }
 </div>

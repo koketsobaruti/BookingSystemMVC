@@ -16,7 +16,7 @@ namespace BookingSystem_Prototype_MVC.Controllers
 {
     public class BusinessesController : Controller
     {
-        const string SessionName = "_Name";
+        //const string SessionName = "_Name";
         private readonly ApplicationDBContext _db;
         private readonly IWebHostEnvironment _hostEnvironment;
 
@@ -42,25 +42,19 @@ namespace BookingSystem_Prototype_MVC.Controllers
         /// <returns></returns>
         public IActionResult ViewBusiness()
         {
-            Business obj = TempData["userData"] as Business;
-            
+            Business obj = new Business();
+            //get the business ID to display business data
+            string userId = TempData["userId"].ToString();
             try
             {
-                String ID = obj.ID;
-                //fetch the value passed from other action
-                //var ID = TempData["busId"].ToString();ViewBag.sessionv = 
-                //HttpContext.Session.GetString(SessionName);
-               // ViewBag.Msg = ViewBag.Message;
-                //System.Diagnostics.Debug.WriteLine("BUSINESS ID ADDSOCIALS CONTROLLER:" + ViewBag.Msg);
-                //var ID = "te71324";
                 //System.Diagnostics.Debug.WriteLine("BUSINESS ID ADDSOCIALS CONTROLLER:" + ID);
 
-                if (ID is null)
+                if (userId is null)
                 {
                     return NotFound();
                 }
 
-                obj = _db.Business.Find(ID);
+                obj = _db.Business.Find(userId);
                 if (obj is null)
                 {
                     return NotFound();
@@ -70,7 +64,7 @@ namespace BookingSystem_Prototype_MVC.Controllers
             {
                 System.Diagnostics.Debug.WriteLine("BUSINESS CONTROLLER, ViewBusiness():" + ex.Message);
             }
-                
+
             //get the list of businesses registered
             //IEnumerable<Business> objList = _db.Business;
 
@@ -173,17 +167,12 @@ namespace BookingSystem_Prototype_MVC.Controllers
             //TempData["busId"] = obj.ID;
             //ISession["busId"] = obj.ID;
             //ViewBag.Message = obj.ID;
-            TempData["userData"] = obj;
+            
+            //get the user ID and send it to the next page
+            string userId = obj.ID;
+            TempData["userId"] = userId;
             return RedirectToAction("ViewBusiness");
-            //return RedirectToAction("ViewBusiness", "Businesses", ID);
-            //return RedirectToAction("AddService");
-
-            //ViewBag.ID = busID;
-            //ViewBag.BusID = busID;
-
-            //this redirects to the specified controller and view
-            //return RedirectToAction("ViewBusiness", business);
-            //return View();
+            
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
